@@ -3,13 +3,13 @@
 
 # # Week 3 Deliverable
 
-# In[19]:
+# In[2]:
 
 
 import pandas as pd
 
 
-# In[20]:
+# In[3]:
 
 
 sold = pd.read_csv("ResidentialSoldFINAL.csv")
@@ -18,7 +18,7 @@ list = pd.read_csv("ResidentialListingsFINAL.csv")
 
 # ### Fetching Mortgage FRED Dataset
 
-# In[21]:
+# In[4]:
 
 
 url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
@@ -29,7 +29,7 @@ mortgage
 
 # ### Resample Weekly Rates to Monthly Averages
 
-# In[22]:
+# In[5]:
 
 
 mortgage['year_month'] = mortgage['date'].dt.to_period('M')
@@ -39,7 +39,7 @@ mortgage_monthly
 
 # ### Creating Matching ket on MLS Datasets
 
-# In[23]:
+# In[6]:
 
 
 # Sold dataset — key off CloseDate
@@ -47,7 +47,7 @@ sold['year_month'] = pd.to_datetime(sold['CloseDate']).dt.to_period('M')
 sold['year_month']
 
 
-# In[24]:
+# In[7]:
 
 
 # Listings dataset — key off ListingContractDate
@@ -57,14 +57,14 @@ list['year_month']
 
 # ### Merge
 
-# In[25]:
+# In[8]:
 
 
 sold_with_rates = sold.merge(mortgage_monthly, on='year_month', how='left')
 sold_with_rates
 
 
-# In[26]:
+# In[9]:
 
 
 listings_with_rates = list.merge(mortgage_monthly, on='year_month', how='left')
@@ -73,14 +73,14 @@ listings_with_rates
 
 # ### Validate Merge
 
-# In[27]:
+# In[10]:
 
 
 print(sold_with_rates['rate_30yr_fixed'].isnull().sum())
 print(listings_with_rates['rate_30yr_fixed'].isnull().sum())
 
 
-# In[28]:
+# In[11]:
 
 
 print(

@@ -3,14 +3,14 @@
 
 # # Week 2 Deliverable
 
-# In[36]:
+# In[3]:
 
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
-# In[3]:
+# In[4]:
 
 
 list = pd.read_csv("list_residentials.csv")
@@ -21,59 +21,59 @@ sold = pd.read_csv("sold_residentials.csv")
 
 # ### Dataset Understanding
 
-# In[ ]:
+# In[5]:
 
 
 #first five rows of sold dataset
 sold.head()
 
 
-# In[ ]:
+# In[6]:
 
 
 #591,465 rows and 84 columns for sold
 sold.shape
 
 
-# In[ ]:
+# In[7]:
 
 
 #all the column names in sold
 sold.columns
 
 
-# In[16]:
+# In[8]:
 
 
 #datatypes for all the columns in sold
 sold.dtypes
 
 
-# In[20]:
+# In[9]:
 
 
 #Identify property types in sold
 sold["PropertyType"].value_counts()
 
 
-# In[21]:
+# In[10]:
 
 
 #Checking property type categories in sold
 sold["PropertyType"].unique()
 
 
-# In[22]:
+# In[11]:
 
 
 #filter to just residential property types and identify the shape of the new sold dataset
-sold_new = list[list["PropertyType"]=="Residential"]
+sold_new = sold[sold["PropertyType"]=="Residential"]
 sold_new.shape
 
 
 # ### Missing Value Analysis
 
-# In[23]:
+# In[12]:
 
 
 #identify percentage of missing data in the columns of list
@@ -81,14 +81,14 @@ sold_missing_percent = sold_new.isnull().mean()*100
 sold_missing_percent
 
 
-# In[27]:
+# In[13]:
 
 
 #identify columns in sold that have over 90% missing data
 sold_missing_percent[sold_missing_percent>90].index
 
 
-# In[28]:
+# In[14]:
 
 
 #drop irrelevant columns in sold that have over 90% missing data
@@ -103,7 +103,7 @@ final_sold.head()
 
 # ### Numeric Distribution Review
 
-# In[33]:
+# In[15]:
 
 
 #Percentile summaries for the following columns in sold
@@ -111,7 +111,7 @@ numeric_cols_sold = ["ClosePrice", "ListPrice", "OriginalListPrice", "LivingArea
 final_sold[numeric_cols_sold].describe(percentiles=[0.10,0.25,0.50,0.75,0.90])
 
 
-# In[37]:
+# In[16]:
 
 
 #Historgram numeric distribution for key numeric fields for sold
@@ -121,7 +121,7 @@ for column in numeric_cols_sold:
     plt.show()
 
 
-# In[39]:
+# In[17]:
 
 
 #Boxplot numeric distribution for key numeric fields for sold
@@ -135,49 +135,49 @@ for column in numeric_cols_sold:
 
 # ### Dataset Understanding
 
-# In[ ]:
+# In[18]:
 
 
 #first five rows of listing dataset
 list.head()
 
 
-# In[ ]:
+# In[19]:
 
 
 #591,465 rows and 84 columns for listings
 list.shape
 
 
-# In[ ]:
+# In[20]:
 
 
 #all the names of the columns in listings
 list.columns
 
 
-# In[5]:
+# In[21]:
 
 
 #datatypes for all the columns in listings
 list.dtypes
 
 
-# In[4]:
+# In[22]:
 
 
 #identify property types in list
 list["PropertyType"].value_counts()
 
 
-# In[18]:
+# In[23]:
 
 
 #Checking propety type categories in list
 list["PropertyType"].unique()
 
 
-# In[7]:
+# In[24]:
 
 
 #filter to just residential property types and identify the shape of the new list dataset
@@ -187,7 +187,7 @@ list_new.shape
 
 # ### Missing Value Analysis
 
-# In[8]:
+# In[25]:
 
 
 #identify percentage of missing data in the columns of list
@@ -202,7 +202,7 @@ list_missing_percent
 list_missing_percent[list_missing_percent>90].index
 
 
-# In[15]:
+# In[27]:
 
 
 #drop irrelevants columns that have over 90% missing data in list
@@ -217,7 +217,7 @@ final_listings.head()
 
 # ### Numeric Distribution
 
-# In[42]:
+# In[28]:
 
 
 #Percentile summaries for the following columns in list
@@ -225,7 +225,7 @@ numeric_cols_list = ["ClosePrice", "ListPrice", "OriginalListPrice", "LivingArea
 final_listings[numeric_cols_list].describe(percentiles=[0.10,0.25,0.50,0.75,0.90])
 
 
-# In[43]:
+# In[29]:
 
 
 #Historgram numeric distribution for key numeric fields for list
@@ -235,7 +235,7 @@ for column in numeric_cols_list:
     plt.show()
 
 
-# In[44]:
+# In[30]:
 
 
 #Boxplot numeric distribution for key numeric fields for listings
@@ -247,16 +247,48 @@ for column in numeric_cols_list:
 
 # ## Suggested Intern Questions EDA
 
-# In[ ]:
+# In[31]:
 
 
+#Mean and Median of Close Prices
+print(sold["ClosePrice"].mean())
+print(sold["ClosePrice"].median())
 
+
+# In[32]:
+
+
+#Days on Market Distribution
+sold["DaysOnMarket"].hist(bins=30)
+
+
+# In[33]:
+
+
+#Sold above or below list price
+above = sold["ClosePrice"] > sold["ListPrice"]
+above.value_counts(normalize=True)*100
+
+
+# In[34]:
+
+
+#Date Consistency
+sold[sold["CloseDate"]<sold["ListingContractDate"]]
+
+
+# In[35]:
+
+
+#Highest Median Price by County
+sold.groupby("CountyOrParish")["ClosePrice"].median().sort_values(ascending=False)
 
 
 # ## Saving updated datasets as CSV files
 
-# In[ ]:
+# In[36]:
 
 
-
+final_listings.to_csv("ResidentialListingsFINAL.csv",index=False)
+final_sold.to_csv("ResidentialSoldFINAL.csv",index=False)
 

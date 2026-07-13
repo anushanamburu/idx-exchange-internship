@@ -5,13 +5,13 @@
 # 
 # ##### Read all the Listing files from 2024, 2025, and 2026. First, combined all the Listing files by year and then combined all of the list year files all into one large csv file for Listing data.
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
 
 
-# In[2]:
+# In[3]:
 
 
 list1 = pd.read_csv("CRMLSListing202401.csv")
@@ -33,7 +33,7 @@ list2024 = pd.concat([list1,list2,list3,list4,list5,list6,list7,list8,list9,list
 len(list2024) 
 
 
-# In[3]:
+# In[4]:
 
 
 list1x = pd.read_csv("CRMLSListing202501.csv")
@@ -55,7 +55,7 @@ list2025 = pd.concat([list1x,list2x,list3x,list4x,list5x,list6x,list7x,list8x,li
 len(list2025)
 
 
-# In[ ]:
+# In[5]:
 
 
 list1y = pd.read_csv("CRMLSListing202601.csv")
@@ -70,7 +70,7 @@ list2026 = pd.concat([list1y,list2y,list3y,list4y,list5y])
 len(list2026)
 
 
-# In[ ]:
+# In[6]:
 
 
 list = pd.concat([list2024,list2025,list2026])
@@ -80,7 +80,7 @@ print(list)
 len(list)
 
 
-# In[ ]:
+# In[7]:
 
 
 list_residentials = list[list["PropertyType"] == "Residential"]
@@ -91,7 +91,7 @@ list_residentials
 
 # ##### Read all of the Sold files from 2024, 2025, and 2026. Removed the last two columns in the files named "filled." After cleaning this part of the data, performed the same code as the Listing data to combine all the datasets into one large csv file for Sold data.
 
-# In[7]:
+# In[8]:
 
 
 sold1 = pd.read_csv("CRMLSSold202401.csv")
@@ -120,7 +120,7 @@ sold2024 = pd.concat([sold1,sold2,sold3,sold4,sold5_new,sold6_new,sold7_new,sold
 len(sold2024)
 
 
-# In[8]:
+# In[9]:
 
 
 sold1x = pd.read_csv("CRMLSSold202501_filled.csv")
@@ -144,7 +144,7 @@ sold2025 = pd.concat([sold1_newx,sold2x,sold3x,sold4x,sold5x,sold6x,sold7x,sold8
 len(sold2025)
 
 
-# In[ ]:
+# In[10]:
 
 
 sold1y = pd.read_csv("CRMLSSold202601.csv")
@@ -159,7 +159,7 @@ sold2026 = pd.concat([sold1y,sold2y,sold3y,sold4y,sold5y])
 len(sold2026)
 
 
-# In[ ]:
+# In[11]:
 
 
 sold = pd.concat([sold2024,sold2025,sold2026])
@@ -169,10 +169,10 @@ print(sold)
 len(sold)
 
 
-# In[ ]:
+# In[12]:
 
 
-sold_residentials = list[list["PropertyType"] == "Residential"]
+sold_residentials = sold[sold["PropertyType"] == "Residential"]
 sold_residentials
 
 #total of 591,465 sold that were residential for years 2024, 2025, and 2026
@@ -180,10 +180,9 @@ sold_residentials
 
 # ### Saving combined listings and sold residential properties as CSV files
 
-# In[12]:
+# In[13]:
 
 
-#Turned into CSV files for new listing and sold datasets
 list_residentials.to_csv("list_residentials.csv", index=False)
 sold_residentials.to_csv("sold_residentials.csv", index=False)
 
