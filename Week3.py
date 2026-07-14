@@ -89,3 +89,5 @@ print(
     ].head()
 )
 
+sold_with_rates.to_csv("soldFINAL.csv", index=False)
+listings_with_rates.to_csv("listFINAL.csv", index=False)
