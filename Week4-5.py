@@ -97,7 +97,7 @@ list_missing[list_missing>0].sort_values(ascending=False)
 
 # ### Ensure Numeric Fields are Proper
 
-# In[13]:
+# In[10]:
 
 
 #converting all column names into numeric if needed
@@ -113,7 +113,7 @@ for col in numeric_cols:
 
 # ### Removing or Flagging Invalid Numeric Values
 
-# In[ ]:
+# In[11]:
 
 
 #flagging invalid numeric values in list
@@ -127,7 +127,7 @@ list["invalid_nums"] = (
 list["invalid_nums"].sum()
 
 
-# In[ ]:
+# In[12]:
 
 
 #flagging invalid numeric values in sold
@@ -143,7 +143,7 @@ sold["invalid_nums"].sum()
 
 # ### Data Consistency Checks
 
-# In[16]:
+# In[13]:
 
 
 #data check for sold / flag count in each column
@@ -153,7 +153,7 @@ sold["negative_timeline_flag"] = (sold["PurchaseContractDate"]<sold["ListingCont
 sold[["listing_after_close_flag","purchase_after_close_flag","negative_timeline_flag"]].sum()
 
 
-# In[17]:
+# In[14]:
 
 
 #data check for list / flag count in each column
@@ -167,7 +167,7 @@ list[["listing_after_close_flag","purchase_after_close_flag","negative_timeline_
 
 # #### Flag Missing Coordinates
 
-# In[18]:
+# In[15]:
 
 
 #flagging missing coordinates in sold
@@ -175,7 +175,7 @@ sold["missing_coord_flag"] = (sold["Latitude"].isna()|sold["Longitude"].isna())
 sold["missing_coord_flag"].sum()
 
 
-# In[19]:
+# In[16]:
 
 
 #flagging missing coordinates in list
@@ -185,7 +185,7 @@ list["missing_coord_flag"].sum()
 
 # #### Flag Latitude or Longitude is zero
 
-# In[20]:
+# In[17]:
 
 
 #flagging when latitude/longitude is zero in sold and list
@@ -198,7 +198,7 @@ print(list["zero_coord_flag"].sum())
 
 # #### Flag Longitude > 0 errors
 
-# In[21]:
+# In[18]:
 
 
 #flagging longitude > 0 errors, since CA longitudes are always negative
@@ -211,22 +211,22 @@ print(list["positive_long_flag"].sum())
 
 # #### Flag Out of State / Implausible Coordinates
 
-# In[22]:
+# In[19]:
 
 
 sold["implausible_coord_flag"] = (
-    (sold["Latitude"]<32) | (sold["Latitude"]<42) | 
+    (sold["Latitude"]<32) | (sold["Latitude"]>42) | 
     (sold["Longitude"]<-125) | (sold["Longitude"]>-115)
 )
 
 print(sold["implausible_coord_flag"].sum())
 
 
-# In[23]:
+# In[20]:
 
 
 list["implausible_coord_flag"] = (
-    (list["Latitude"]<32) | (list["Latitude"]<42) | 
+    (list["Latitude"]<32) | (list["Latitude"]>42) | 
     (list["Longitude"]<-125) | (list["Longitude"]>-115)
 )
 
@@ -235,7 +235,7 @@ print(list["implausible_coord_flag"].sum())
 
 # ### Save datasets as CSVs
 
-# In[25]:
+# In[21]:
 
 
 sold.to_csv("sold_clean_week45.csv", index=False)
